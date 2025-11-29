@@ -1,0 +1,50 @@
+# Multi-stage build OTIMIZADO para frontend React
+
+# Stage 1: Build
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+# Otimizações de performance
+ENV NODE_ENV=production
+ENV NPM_CONFIG_LOGLEVEL=error
+
+# Copiar apenas package.json primeiro (cache layer)
+COPY package.json ./
+
+# Instalar dependências de forma otimizada
+# --production: apenas prod deps (mais rápido)
+# --no-audit: pula auditoria de segurança
+# --no-fund: pula mensagens de funding
+# --prefer-offline: usa cache local se disponível
+RUN npm install --production \
+    --legacy-peer-deps \
+    --no-audit \
+    --no-fund \
+    --prefer-offline \
+    --progress=false
+
+# Copiar código fonte
+COPY . .
+
+# Build otimizado
+RUN npm run build 2>&1 | grep -v "webpack"
+
+# Stage 2: Nginx super leve
+FROM nginx:alpine
+
+# Copiar build
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copiar config nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Remover arquivos desnecessários do nginx
+RUN rm -rf /usr/share/nginx/html/*.map
+
+EXPOSE 80
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
+
+CMD ["nginx", "-g", "daemon off;"]

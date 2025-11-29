@@ -1,0 +1,23 @@
+# FastAPI e servidor
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+websockets==12.0
+
+# Cliente Anthropic
+anthropic==0.34.2
+
+# Docker
+docker==7.0.0
+
+# Utilitários
+python-dotenv==1.0.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Logs
+loguru==0.7.2
+
+# Async
+aiofiles==23.2.1
+httpx==0.25.2

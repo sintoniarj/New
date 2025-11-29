@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-dark-border;
+  }
+  
+  body {
+    @apply bg-dark-bg text-dark-text font-mono;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  #root {
+    @apply w-screen h-screen;
+  }
+
+  /* Scrollbar customizada */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-surface;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-border rounded;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-dark-hover;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply bg-dark-surface border border-dark-border rounded;
+  }
+
+  .button {
+    @apply px-3 py-1.5 bg-dark-hover hover:bg-dark-border text-dark-text rounded transition-colors text-sm;
+  }
+
+  .button-primary {
+    @apply px-3 py-1.5 bg-dark-accent hover:bg-blue-600 text-white rounded transition-colors text-sm font-medium;
+  }
+
+  .input {
+    @apply bg-dark-bg border border-dark-border text-dark-text px-3 py-2 rounded focus:outline-none focus:border-dark-accent transition-colors;
+  }
+
+  .tab {
+    @apply px-3 py-2 text-sm text-dark-text-secondary hover:text-dark-text cursor-pointer transition-colors border-b-2 border-transparent;
+  }
+
+  .tab-active {
+    @apply text-dark-accent border-dark-accent;
+  }
+}
